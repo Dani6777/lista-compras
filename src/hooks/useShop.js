@@ -1,47 +1,44 @@
 import { useEffect } from "react";
-import { shopReducer } from "../shopreducer"
-import {useReducer} from 'react'
+import { shopReducer } from "../shopreducer";
+import { useReducer } from 'react';
 
-export const useShop = () =>{
+export const useShop = () => {
+    const initialState = [];
 
-    const initalState = [];
-
-    const init =() =>{
-        return JSON.parse(localStorage.getItem('shops')) || []
-    }
+    const init = () => {
+        return JSON.parse(localStorage.getItem('shops')) || [];
+    };
 
     const [shops, dispatch] = useReducer(
-        shopReducer, 
-        initalState,
+        shopReducer,
+        initialState,
         init
     );
 
-    const shopsCount = shops.length
-    const pendingShopsCount = shops.filter(shop => !shop.done).length
+    const shopsCount = shops.length;
+    const pendingShopsCount = shops.filter(shop => !shop.done).length;
 
-    useEffect(()=>{
-        localStorage.setItem('shops', JSON.stringify(shops))
-    },[shops])
+    useEffect(() => {
+        localStorage.setItem('shops', JSON.stringify(shops));
+    }, [shops]);
 
-
-
-    const handleNewShop = shop =>{
-        const action  = {
-            type:'Add Shop',
+    const handleNewShop = shop => {
+        const action = {
+            type: 'Add Shop',
             payload: shop,
         };
         dispatch(action);
     };
 
-    const handleDeleteShop = id =>{
-        const action ={
-            type:'Delete Shop',
+    const handleDeleteShop = id => {
+        const action = {
+            type: 'Delete Shop',
             payload: id,
         };
         dispatch(action);
     };
 
-    const handleCompleteShop = id =>{
+    const handleCompleteShop = id => {
         const action = {
             type: 'Complete Shop',
             payload: id,
@@ -49,17 +46,18 @@ export const useShop = () =>{
         dispatch(action);
     };
 
-    const handleUpdateShop = (id, description) =>{
+    const handleUpdateShop = (id, description) => {
         const action = {
             type: 'Update Shop',
-            payload:{
+            payload: {
                 id,
                 description,
             },
         };
         dispatch(action);
     };
-    return{
+
+    return {
         shops,
         shopsCount,
         pendingShopsCount,
@@ -67,5 +65,5 @@ export const useShop = () =>{
         handleCompleteShop,
         handleDeleteShop,
         handleUpdateShop
-    }
+    };
 };

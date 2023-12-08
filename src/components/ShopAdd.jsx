@@ -1,29 +1,37 @@
-import React from 'react'
+import React from 'react';
 import { useForm } from '../hooks/useForm';
 
-
-export const ShopAdd = ({handleNewShop}) => {
-
-    const{description, onInputChange, onResetForm} = useForm({
-        description: '',       
+export const ShopAdd = ({ handleNewShop }) => {
+    const { description, onInputChange, onResetForm } = useForm({
+        description: '',
     });
 
     const onFormSubmit = e => {
         e.preventDefault();
-        if(description.length <= 1) return
+        if (!description.trim()) return;
 
-        let newShop ={
-            id: new Date().getDate(),
+        let newShop = {
+            id: new Date().getTime(),
             description: description,
             done: false
         };
-        handleNewShop(newShop)
+        handleNewShop(newShop);
         onResetForm();
     };
-    return( <form onSubmit={onFormSubmit}>
-        <input type='text' className='input-add' name='description' value={description} onChange={onInputChange} placeholder='compras' />
-        <button className='btn-add' type='submit'>Agregar</button>
 
-    </form>
-    );  
+    return (
+        <form onSubmit={onFormSubmit}>
+            <input
+                type='text'
+                className='input-add'
+                name='description'
+                value={description}
+                onChange={onInputChange}
+                placeholder='compras'
+            />
+            <button className='btn-add' type='submit'>
+                Agregar
+            </button>
+        </form>
+    );
 };
